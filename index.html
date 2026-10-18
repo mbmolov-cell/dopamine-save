@@ -1,15 +1,13 @@
-npx --yes http-server -p 8080
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <title>Дофаминовый Сейв</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0f">
 <style>
-:root{--bg:#0a0a0f;--card:#16161f;--card2:#1e1e2a;--text:#fff;--muted:#8888a0;--accent:#00e676;--accent2:#00b85c;--gold:#ffd54f}
+:root{--bg:#0a0a0f;--card:#16161f;--card2:#1e1e2a;--text:#fff;--muted:#8888a0;--accent:#00e676;--accent2:#00b85c;--gold:#ffd54f;--danger:#ff5252}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,"SF Pro Display",Roboto,system-ui,sans-serif}
 html,body{height:100%;background:var(--bg);color:var(--text);overflow-x:hidden;user-select:none;-webkit-user-select:none}
 .screen{display:none;min-height:100vh;padding:24px 20px}
@@ -27,29 +25,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);overflow-x:hidden;u
 .btn-primary{width:100%;background:var(--accent);color:#000;border:none;border-radius:16px;padding:18px;font-size:17px;font-weight:700;cursor:pointer;margin-top:auto;transition:transform .15s}
 .btn-primary:active{transform:scale(.98)}
 .btn-primary:disabled{opacity:.4}
-.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;gap:10px}
-.header-left{flex:1}
+.btn-secondary{width:100%;background:var(--card);color:var(--text);border:2px solid var(--card2);border-radius:16px;padding:18px;font-size:16px;font-weight:600;cursor:pointer;margin-top:12px}
+.header{text-align:center;margin-bottom:24px;position:relative}
 .header-title{font-size:15px;color:var(--muted)}
-.header-cat{font-size:15px;font-weight:600}
-.header-right{display:flex;align-items:center;gap:8px}
-.switch-btn{background:var(--card);border:1px solid var(--card2);border-radius:12px;padding:10px 12px;color:var(--text);font-size:18px;cursor:pointer;transition:all .15s}
-.switch-btn:active{transform:scale(.95)}
-.capital-block{text-align:center;margin-bottom:8px}
-.capital-value{font-size:48px;font-weight:800;letter-spacing:-1.5px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:transform .3s}
+.capital-value{font-size:52px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:transform .3s;margin-top:8px}
 .capital-value.bump{animation:bump .5s ease}
 @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-.telescope{text-align:center;font-size:14px;color:var(--muted);margin-bottom:32px;min-height:40px;line-height:1.4;padding:10px;background:var(--card);border-radius:14px}
+.telescope{text-align:center;font-size:14px;color:var(--muted);margin-bottom:24px;padding:12px;background:var(--card);border-radius:14px;line-height:1.4}
 .telescope .highlight{color:var(--gold);font-weight:700}
-.buttons{display:flex;flex-direction:column;gap:14px}
-.big-btn{background:var(--card);border:2px solid var(--card2);border-radius:20px;padding:24px 20px;color:var(--text);text-align:left;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:14px}
-.big-btn:active{transform:scale(.98)}
-.big-btn:disabled{opacity:.4;cursor:not-allowed}
-.big-btn-icon{font-size:32px}
-.big-btn-text{flex:1}
-.big-btn-title{font-size:17px;font-weight:700;margin-bottom:4px}
-.big-btn-sub{font-size:13px;color:var(--muted)}
-.big-btn.morning{border-color:rgba(255,213,79,.3)}
-.big-btn.daily{border-color:rgba(0,230,118,.3)}
+.habit-card{background:var(--card);border:2px solid var(--card2);border-radius:20px;padding:16px;margin-bottom:16px}
+.habit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.habit-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+.habit-streak{font-size:13px;color:var(--gold);font-weight:600;background:rgba(255,213,79,.1);padding:4px 8px;border-radius:8px;margin-bottom:12px;display:inline-block}
+.habit-streak.long{color:var(--accent);background:rgba(0,230,118,.1)}
+.habit-delete{color:var(--danger);font-size:20px;cursor:pointer;padding:4px 8px}
+.morning-btn{width:100%;background:rgba(255,213,79,.1);border:1px solid rgba(255,213,79,.3);color:var(--text);padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;display:flex;justify-content:center;align-items:center;gap:8px;transition:all .15s}
+.morning-btn:active{transform:scale(.98)}
+.morning-btn:disabled{opacity:.5;cursor:not-allowed}
+.morning-btn.done{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.3);color:var(--accent)}
+.daily-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border:none;padding:18px;border-radius:16px;font-size:17px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:8px;transition:all .15s}
+.daily-btn:active{transform:scale(.98)}
+.add-btn{background:transparent;border:2px dashed var(--muted);color:var(--muted);border-radius:20px;padding:20px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:32px;transition:all .15s}
+.add-btn:active{background:var(--card)}
+.backup-zone{margin-top:20px;padding-top:20px;border-top:1px solid var(--card2);display:flex;gap:10px}
+.backup-btn{flex:1;background:var(--card);color:var(--muted);border:1px solid var(--card2);border-radius:12px;padding:12px;font-size:13px;cursor:pointer;text-align:center}
 .timer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100}
 .timer-overlay.active{display:flex}
 .timer-circle{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:32px}
@@ -59,22 +58,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);overflow-x:hidden;u
 .timer-fg{stroke:var(--accent);transition:stroke-dashoffset .1s linear}
 .timer-number{font-size:64px;font-weight:800;color:var(--text)}
 .timer-text{font-size:16px;color:var(--muted);text-align:center;padding:0 40px;line-height:1.5}
+.timer-habit{font-size:20px;font-weight:700;margin-bottom:16px;color:var(--gold)}
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;padding:24px 32px;border-radius:24px;font-size:20px;font-weight:800;text-align:center;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:200;box-shadow:0 20px 60px rgba(0,230,118,.5);max-width:80vw}
 .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .toast .emoji{font-size:40px;display:block;margin-bottom:8px}
-.history-link{text-align:center;color:var(--muted);font-size:14px;margin-top:20px;cursor:pointer;text-decoration:underline}
-.history-list{margin-top:20px}
+.history-list{margin-top:24px;padding-bottom:20px}
 .history-item{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--card2);font-size:14px}
 .history-item .amount{color:var(--accent);font-weight:700}
 .history-item .time{color:var(--muted);font-size:12px}
-.switch-note{font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;padding:12px;background:var(--card);border-radius:12px;line-height:1.4}
 </style>
 </head>
 <body>
 
-<div class="screen active" id="onboarding">
-  <div class="onb-title">Дофаминовый Сейв</div>
-  <div class="onb-sub">Выбери привычку, которую хочешь превратить в капитал. Каждый раз, когда сдержишь импульс — деньги уходят не на покупку, а на твой счёт.</div>
+<div class="screen" id="onboarding">
+  <div class="onb-title">Новая привычка</div>
+  <div class="onb-sub">Выбери категорию и настрой суммы.</div>
   <div class="cat-grid" id="catGrid">
     <div class="cat-card" data-cat="tobacco" data-name="Курение" data-morning="500" data-daily="100"><span class="emoji">🚬</span>Курение</div>
     <div class="cat-card" data-cat="sugar" data-name="Сладкое" data-morning="0" data-daily="150"><span class="emoji">🍫</span>Сладкое</div>
@@ -90,45 +88,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);overflow-x:hidden;u
     <label>Дневная сумма за импульс (₽)</label>
     <input type="number" id="dailyInput" placeholder="100" value="100" inputmode="numeric">
   </div>
-  <button class="btn-primary" id="startBtn" disabled>Начать</button>
+  <button class="btn-primary" id="startBtn" disabled>Добавить на главный экран</button>
+  <button class="btn-secondary" id="cancelBtn">Отмена</button>
 </div>
 
-<div class="screen" id="main">
+<div class="screen active" id="main">
   <div class="header">
-    <div class="header-left">
-      <div class="header-title">Мой спасённый капитал</div>
-      <div class="header-cat" id="headerCat">—</div>
-    </div>
-    <div class="header-right">
-      <div id="headerEmoji" style="font-size:32px"></div>
-      <button class="switch-btn" id="switchBtn" title="Сменить привычку">⚙️</button>
-    </div>
-  </div>
-  <div class="capital-block">
+    <div class="header-title">Мой спасённый капитал</div>
     <div class="capital-value" id="capitalValue">0 ₽</div>
   </div>
   <div class="telescope" id="telescope"></div>
-  <div class="buttons">
-    <button class="big-btn morning" id="morningBtn">
-      <span class="big-btn-icon">☀️</span>
-      <div class="big-btn-text">
-        <div class="big-btn-title" id="morningTitle">Активировать День здоровья</div>
-        <div class="big-btn-sub" id="morningSub">Утренний блок</div>
-      </div>
-    </button>
-    <button class="big-btn daily" id="dailyBtn">
-      <span class="big-btn-icon">🛡️</span>
-      <div class="big-btn-text">
-        <div class="big-btn-title">Срезать тягу</div>
-        <div class="big-btn-sub" id="dailySub">7 секунд, чтобы победить</div>
-      </div>
-    </button>
+  <div id="habitsList"></div>
+  <button class="add-btn" id="addBtn">+ Добавить привычку</button>
+  <div class="backup-zone">
+    <div class="backup-btn" onclick="exportData()">📥 Сохранить копию</div>
+    <div class="backup-btn" onclick="document.getElementById('importFile').click()">📤 Загрузить</div>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
   </div>
-  <div class="history-link" id="historyLink">История побед</div>
-  <div class="history-list" id="historyList"></div>
 </div>
 
 <div class="timer-overlay" id="timerOverlay">
+  <div class="timer-habit" id="timerHabit">🚬 Курение</div>
   <div class="timer-circle">
     <svg width="220" height="220">
       <circle class="timer-bg" cx="110" cy="110" r="100"></circle>
@@ -145,102 +125,219 @@ html,body{height:100%;background:var(--bg);color:var(--text);overflow-x:hidden;u
 </div>
 
 <script>
-const STORAGE_KEY='dopamine_save_v1';
-let state={category:null,categoryName:null,emoji:'🚬',morningAmount:0,dailyAmount:0,totalSaved:0,history:[],lastMorningDate:null,selectedCat:null};
-function load(){try{const r=localStorage.getItem(STORAGE_KEY);if(r){Object.assign(state,JSON.parse(r));return true}}catch(e){}return false}
+const STORAGE_KEY='dopamine_save_v2';
+let state={ totalSaved: 0, history: [], habits: [] };
+let selectedCatData=null;
+let currentTimerHabitId=null;
+
+function load(){
+  try{
+    const r=localStorage.getItem(STORAGE_KEY);
+    if(r){ Object.assign(state, JSON.parse(r)); }
+  }catch(e){}
+}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
 function fmt(n){return Math.round(n).toLocaleString('ru-RU')+' ₽'}
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function isMorningTime(){const h=new Date().getHours();return true}
-const RATE=.17,YEARS=10;
-function futureValue(a){return a*Math.pow(1+RATE,YEARS)}
+function getDaysDiff(dateStr1, dateStr2) {
+  if(!dateStr1 || !dateStr2) return 999;
+  const d1 = new Date(dateStr1);
+  const d2 = new Date(dateStr2);
+  const diffTime = Math.abs(d2 - d1);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
 
 const catGrid=document.getElementById('catGrid');
 const morningInput=document.getElementById('morningInput');
 const dailyInput=document.getElementById('dailyInput');
 const startBtn=document.getElementById('startBtn');
+const cancelBtn=document.getElementById('cancelBtn');
+const addBtn=document.getElementById('addBtn');
 const catEmoji={tobacco:'🚬',sugar:'🍫',coffee:'☕',overeating:'🍔',alcohol:'🍷'};
 
-catGrid.addEventListener('click',e=>{const c=e.target.closest('.cat-card');if(!c)return;document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');state.selectedCat=c.dataset;morningInput.value=c.dataset.morning;dailyInput.value=c.dataset.daily;startBtn.disabled=false});
+catGrid.addEventListener('click',e=>{
+  const c=e.target.closest('.cat-card');if(!c)return;
+  document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('selected'));
+  c.classList.add('selected');
+  selectedCatData=c.dataset;
+  morningInput.value=c.dataset.morning;
+  dailyInput.value=c.dataset.daily;
+  startBtn.disabled=false;
+});
+
+addBtn.addEventListener('click', ()=>{
+  selectedCatData=null; document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('selected'));
+  startBtn.disabled=true; morningInput.value=''; dailyInput.value='';
+  showScreen('onboarding');
+});
+cancelBtn.addEventListener('click', ()=>showScreen('main'));
 
 startBtn.addEventListener('click',()=>{
-  const c=state.selectedCat;
-  if(!c)return;
-  const isSwitch=!!state.category;
-  state.category=c.cat;
-  state.categoryName=c.name;
-  state.emoji=catEmoji[c.cat]||'🎯';
-  state.morningAmount=parseInt(morningInput.value)||0;
-  state.dailyAmount=parseInt(dailyInput.value)||0;
-  if(!isSwitch){state.totalSaved=0;state.history=[]}
-  state.lastMorningDate=null;
-  save();
-  showScreen('main');
-  render();
+  if(!selectedCatData) return;
+  if(state.habits.find(h=>h.id===selectedCatData.cat)){ alert('Эта привычка уже добавлена.'); return; }
+  state.habits.push({
+    id: selectedCatData.cat, name: selectedCatData.name, emoji: catEmoji[selectedCatData.cat]||'🎯',
+    morningAmount: parseInt(morningInput.value)||0, dailyAmount: parseInt(dailyInput.value)||0,
+    lastMorningDate: null, streak: 0, lastActionDate: null
+  });
+  save(); showScreen('main'); render();
 });
 
 function showScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(n).classList.add('active')}
 
 const capitalValue=document.getElementById('capitalValue');
 const telescope=document.getElementById('telescope');
-const headerCat=document.getElementById('headerCat');
-const headerEmoji=document.getElementById('headerEmoji');
-const morningBtn=document.getElementById('morningBtn');
-const morningTitle=document.getElementById('morningTitle');
-const morningSub=document.getElementById('morningSub');
-const dailyBtn=document.getElementById('dailyBtn');
-const dailySub=document.getElementById('dailySub');
-const historyList=document.getElementById('historyList');
-const switchBtn=document.getElementById('switchBtn');
+const habitsList=document.getElementById('habitsList');
+const RATE=.17,YEARS=10;
 
 function render(){
-  headerCat.textContent=state.categoryName||'';
-  headerEmoji.textContent=state.emoji;
   capitalValue.textContent=fmt(state.totalSaved);
-  const fv=futureValue(state.totalSaved);
+  const fv=state.totalSaved*Math.pow(1+RATE,YEARS);
   telescope.innerHTML='Через 10 лет под <span class="highlight">17%</span> годовых это станет <span class="highlight">'+fmt(fv)+'</span>';
-  const md=state.lastMorningDate===todayStr();
-  const ma=isMorningTime();
-  morningBtn.style.display='flex';
-  if(state.morningAmount<=0){morningBtn.disabled=true;morningTitle.textContent='Утренний блок отключён';morningSub.textContent='Для этой привычки утренней суммы нет'}
-  else if(md){morningBtn.disabled=true;morningTitle.textContent='День здоровья добавлен 🔒';morningSub.textContent='До встречи завтра!'}
-  else if(!ma){morningBtn.disabled=true;morningTitle.textContent='Активировать День здоровья';morningSub.textContent='Доступно с 06:00 до 12:00'}
-  else{morningBtn.disabled=false;morningTitle.textContent='Активировать День здоровья';morningSub.textContent='+'+fmt(state.morningAmount)+' в капитал'}
-  dailySub.textContent='+'+fmt(state.dailyAmount)+' за импульс';
-  if(state.history.length===0){historyList.innerHTML='<div style="text-align:center;color:var(--muted);padding:20px;font-size:14px">Здесь появятся твои победы</div>'}
-  else{const last=state.history.slice(-10).reverse();historyList.innerHTML=last.map(h=>{const d=new Date(h.timestamp);const t=d.toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});const l=h.type==='morning'?'☀️ День здоровья':'🛡️ Импульс подавлен';return '<div class="history-item"><div><div>'+l+'</div><div class="time">'+t+'</div></div><div class="amount">+'+fmt(h.amount)+'</div></div>'}).join('')}
+
+  habitsList.innerHTML = '';
+  if(state.habits.length === 0){
+    habitsList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px 20px;">У тебя пока нет привычек. Нажми кнопку ниже.</div>';
+  }
+
+  state.habits.forEach(h => {
+    const md = h.lastMorningDate === todayStr();
+    const catLabel = h.emoji + ' ' + h.name;
+    
+    let streakHtml = '';
+    if(h.streak > 0) {
+      const diff = getDaysDiff(h.lastActionDate, todayStr());
+      if(diff > 1) { h.streak = 0; } 
+      else {
+        if(h.streak >= 30) { streakHtml = `<div class="habit-streak long">🏆 Давно без срывов</div>`; } 
+        else { streakHtml = `<div class="habit-streak">🔥 ${h.streak} дн. подряд</div>`; }
+      }
+    }
+
+    let morningBtnHtml = '';
+    if(h.morningAmount > 0){
+      if(md) morningBtnHtml = `<button class="morning-btn done" disabled>✅ ${catLabel} · активирован</button>`;
+      else morningBtnHtml = `<button class="morning-btn" onclick="activateMorning('${h.id}')">☀️ Активировать День здоровья · +${fmt(h.morningAmount)}</button>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'habit-card';
+    card.innerHTML = `
+      <div class="habit-header">
+        <div class="habit-title">${catLabel}</div>
+        <div class="habit-delete" onclick="deleteHabit('${h.id}')">✕</div>
+      </div>
+      ${streakHtml}
+      ${morningBtnHtml}
+      <button class="daily-btn" onclick="startTimer('${h.id}')">
+        🛡️ Срезать тягу (${fmt(h.dailyAmount)})
+      </button>
+    `;
+    habitsList.appendChild(card);
+  });
+
+  if(state.history.length > 0){
+    const histTitle = document.createElement('div');
+    histTitle.style = "text-align:center;color:var(--muted);font-size:14px;margin-top:32px;text-decoration:underline;";
+    histTitle.textContent = "История побед";
+    habitsList.appendChild(histTitle);
+    const histContainer = document.createElement('div');
+    histContainer.className = 'history-list';
+    const last = state.history.slice(-10).reverse();
+    histContainer.innerHTML = last.map(hist => {
+      const d = new Date(hist.timestamp);
+      const t = d.toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      const habitObj = state.habits.find(x => x.id === hist.habitId) || {emoji:'🎯', name:''};
+      const label = hist.type === 'morning' ? `☀️ День здоровья · ${habitObj.name}` : `🛡️ Импульс подавлен · ${habitObj.name}`;
+      return `<div class="history-item"><div><div>${label}</div><div class="time">${t}</div></div><div class="amount">+${fmt(hist.amount)}</div></div>`;
+    }).join('');
+    habitsList.appendChild(histContainer);
+  }
 }
 
-switchBtn.addEventListener('click',()=>{
-  state.selectedCat=null;
-  document.querySelectorAll('.cat-card').forEach(x=>x.classList.remove('selected'));
-  startBtn.disabled=true;
-  morningInput.value='';
-  dailyInput.value='';
-  showScreen('onboarding');
-});
+function updateStreak(h) {
+  const today = todayStr();
+  const diff = getDaysDiff(h.lastActionDate, today);
+  if(diff === 0) return; 
+  if(diff === 1) h.streak = (h.streak || 0) + 1; 
+  else h.streak = 1; 
+  h.lastActionDate = today;
+}
 
-morningBtn.addEventListener('click',()=>{if(morningBtn.disabled)return;state.totalSaved+=state.morningAmount;state.history.push({type:'morning',amount:state.morningAmount,timestamp:Date.now()});state.lastMorningDate=todayStr();save();vibrate(80);capitalValue.classList.add('bump');setTimeout(()=>capitalValue.classList.remove('bump'),500);render();showToast('☀️','День здоровья добавлен!')});
+window.deleteHabit = function(id) {
+  if(confirm('Удалить эту привычку?')) { state.habits = state.habits.filter(h => h.id !== id); save(); render(); }
+};
+
+window.activateMorning = function(id) {
+  const h = state.habits.find(x => x.id === id);
+  if(!h || h.lastMorningDate === todayStr()) return;
+  state.totalSaved += h.morningAmount; h.lastMorningDate = todayStr(); updateStreak(h);
+  state.history.push({ habitId: h.id, type: 'morning', amount: h.morningAmount, timestamp: Date.now() });
+  save(); vibrate(80); capitalValue.classList.add('bump'); setTimeout(()=>capitalValue.classList.remove('bump'),500); render();
+  showToast('☀️', h.name + ' · День здоровья добавлен!');
+};
 
 const timerOverlay=document.getElementById('timerOverlay');
 const timerFg=document.getElementById('timerFg');
 const timerNumber=document.getElementById('timerNumber');
+const timerHabitText=document.getElementById('timerHabit');
 const circumference=2*Math.PI*100;
-timerFg.style.strokeDasharray=circumference;
-timerFg.style.strokeDashoffset=0;
+timerFg.style.strokeDasharray=circumference; timerFg.style.strokeDashoffset=0;
 let timerId=null;
-dailyBtn.addEventListener('click',()=>{if(timerId)return;startTimer()});
-function startTimer(){let s=7;timerOverlay.classList.add('active');timerNumber.textContent=s;timerFg.style.strokeDashoffset=0;const start=Date.now();const dur=7000;timerId=setInterval(()=>{const el=Date.now()-start;const p=Math.min(el/dur,1);timerFg.style.strokeDashoffset=circumference*p;timerNumber.textContent=Math.max(0,7-Math.floor(el/1000));if(p>=1){clearInterval(timerId);timerId=null;finishTimer()}},50)}
-function finishTimer(){timerOverlay.classList.remove('active');vibrate([100,50,200]);state.totalSaved+=state.dailyAmount;state.history.push({type:'daily',amount:state.dailyAmount,timestamp:Date.now()});save();capitalValue.classList.add('bump');setTimeout(()=>capitalValue.classList.remove('bump'),500);render();const p=[['🔥','Импульс подавлен. Ты красавчик!'],['💪','Сила воли +1'],['🏆','+1 день к твоей личной свободе'],['⚡','Ещё одна победа в копилке!'],['🎯','Ты сильнее, чем твоя привычка']];const x=p[Math.floor(Math.random()*p.length)];showToast(x[0],x[1])}
 
-const toast=document.getElementById('toast');
-const toastEmoji=document.getElementById('toastEmoji');
-const toastText=document.getElementById('toastText');
+window.startTimer = function(id) {
+  if(timerId) return;
+  currentTimerHabitId = id;
+  const h = state.habits.find(x => x.id === id);
+  timerHabitText.textContent = h.emoji + ' ' + h.name;
+  timerOverlay.classList.add('active'); timerNumber.textContent = 7; timerFg.style.strokeDashoffset = 0;
+  const start = Date.now();
+  timerId = setInterval(() => {
+    const el = Date.now() - start; const p = Math.min(el/7000, 1);
+    timerFg.style.strokeDashoffset = circumference * p;
+    timerNumber.textContent = Math.max(0, 7 - Math.floor(el/1000));
+    if(p >= 1) { clearInterval(timerId); timerId = null; finishTimer(); }
+  }, 50);
+};
+
+function finishTimer() {
+  timerOverlay.classList.remove('active'); vibrate([100,50,200]);
+  const h = state.habits.find(x => x.id === currentTimerHabitId);
+  if(h){
+    state.totalSaved += h.dailyAmount; updateStreak(h);
+    state.history.push({ habitId: h.id, type: 'daily', amount: h.dailyAmount, timestamp: Date.now() }); save();
+  }
+  capitalValue.classList.add('bump'); setTimeout(()=>capitalValue.classList.remove('bump'),500); render();
+  const praises = [['🔥','Импульс подавлен. Ты красавчик!'],['💪','Сила воли +1'],['🏆','+1 день к твоей личной свободе']];
+  const x = praises[Math.floor(Math.random()*praises.length)];
+  showToast(x[0], x[1]); currentTimerHabitId = null;
+}
+
+function exportData() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+  const dlAnchor = document.createElement('a'); dlAnchor.setAttribute("href", dataStr); dlAnchor.setAttribute("download", "dopamine_save_backup.json");
+  document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove(); showToast('📥', 'Копия сохранена!');
+}
+
+function importData(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedState = JSON.parse(e.target.result);
+      if(importedState.totalSaved !== undefined && importedState.habits) { state = importedState; save(); render(); showToast('📤', 'Данные загружены!'); }
+    } catch(err) { alert('Ошибка: неверный файл'); }
+  };
+  reader.readAsText(file); event.target.value = '';
+}
+
+const toast=document.getElementById('toast'); const toastEmoji=document.getElementById('toastEmoji'); const toastText=document.getElementById('toastText');
 function showToast(e,t){toastEmoji.textContent=e;toastText.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)}
 function vibrate(p){if(navigator.vibrate)navigator.vibrate(p)}
 
-if(load()&&state.category){showScreen('main');render()}else{showScreen('onboarding')}
-setInterval(()=>{if(document.getElementById('main').classList.contains('active'))render()},60000);
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed', err)); }
+load(); render();
+if(state.habits.length === 0) { document.getElementById('addBtn').click(); } else { showScreen('main'); }
 </script>
 </body>
 </html>
