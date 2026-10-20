@@ -1,16 +1,15 @@
 {
   "name": "Дофаминовый Сейв",
   "short_name": "Сейв",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0a0a0f",
-  "theme_color": "#0a0a0f",
+  "theme_color": "#00e676",
   "icons": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI1NiIgZmlsbD0iIzBhMGEwZiIvPjxwYXRoIGQ9Ik0yNTYgMTAwTDEwMCAyNTBsMTU2IDE1NiAxNTYtMTU2TDI1NiAxMDB6IiBmaWxsPSIjMDBlNjc2Ii8+PC9zdmc+",
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
